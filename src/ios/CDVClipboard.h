@@ -6,7 +6,6 @@
 - (void)copy:(CDVInvokedUrlCommand*)command;
 - (void)paste:(CDVInvokedUrlCommand*)command;
 - (void)clear:(CDVInvokedUrlCommand*)command;
-- (void)hasUrls:(CDVInvokedUrlCommand*)command;
-- (void)contain:(CDVInvokedUrlCommand*)command;
+- (void)detectTaobaoLink:(CDVInvokedUrlCommand*)command;
 
 @end
