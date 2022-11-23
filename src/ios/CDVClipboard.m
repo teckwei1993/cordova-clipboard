@@ -40,4 +40,24 @@
 	}];
 }
 
+- (void)hasUrls:(CDVInvokedUrlCommand*)command {
+	[self.commandDelegate runInBackground:^{
+		UIPasteboard *pasteboard = [UIPasteboard generalPasteboard];
+		
+		CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsBool:[pasteboard hasURLs]];
+		[self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+	}];
+}
+
+- (void)contain:(CDVInvokedUrlCommand*)command {
+	[self.commandDelegate runInBackground:^{
+		UIPasteboard *pasteboard = [UIPasteboard generalPasteboard];
+		NSString     *text       = [command.arguments objectAtIndex:0];
+    	BOOL found = [pasteboard containsPasteboardTypes:[NSArray arrayWithObjects: text, nil]];
+		
+		CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsBool:found];
+		[self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+	}];
+}
+
 @end
