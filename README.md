@@ -9,7 +9,7 @@ Clipboard management plugin for Cordova/PhoneGap that supports iOS, Android, and
 cordova plugin add cordova-clipboard
 ```
 
-The plugin creates the object `cordova.plugins.clipboard` with the methods `copy(text, onSuccess, onError)`, `paste(onSuccess, onError)` and `clear(onSuccess, onError)`
+The plugin creates the object `cordova.plugins.clipboard` with the methods `copy(text, onSuccess, onError)`, `paste(onSuccess, onError)`, `clear(onSuccess, onError)` and `patterns(onSuccess, onError)`
 
 Example:
 
@@ -20,6 +20,8 @@ Example:
 	cordova.plugins.clipboard.paste(function (text) { alert(text); });
 
 	cordova.plugins.clipboard.clear();
+
+	cordova.plugins.clipboard.patterns(function (patterns) { console.log(patterns); });
 
 ## Notes
 
@@ -34,6 +36,10 @@ Example:
 ### Android
 
 - The minimum supported API Level is 11. Make sure that `minSdkVersion` is larger or equal to 11 in `AndroidManifest.xml`.
+
+### iOS
+
+- Only iOS support patterns function, for checking the clipboard format before paste.
 
 ## Acknowledgements
 

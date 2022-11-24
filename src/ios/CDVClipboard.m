@@ -40,33 +40,59 @@
 	}];
 }
 
-- (void)detectTaobaoLink:(CDVInvokedUrlCommand*)command {
-	[self.commandDelegate runInBackground:^{
-		if (@available(iOS 15.0, *)) {
-	        UIPasteboard *pasteboard = [UIPasteboard generalPasteboard];
-	        [pasteboard detectPatternsForPatterns:[NSSet setWithObjects:UIPasteboardDetectionPatternLink, UIPasteboardDetectionPatternFlightNumber, nil]
-	                            completionHandler:^(NSSet<UIPasteboardDetectionPattern> * _Nullable set, NSError * _Nullable error) {
-	            BOOL hasLink = NO, hasFlightNumber = NO, isTaoBao = NO;
-	            for (NSString *type in set) {
-	                if ([type isEqualToString:UIPasteboardDetectionPatternLink]) {
-	                    hasLink = YES;
-	                } else if ([type isEqualToString:UIPasteboardDetectionPatternFlightNumber]) {
-	                    hasFlightNumber = YES;
-	                }
-	            }
+- (void)patterns:(CDVInvokedUrlCommand*)command {
+    [self.commandDelegate runInBackground:^{
+        if (@available(iOS 15.0, *)) {
+            UIPasteboard *pasteboard = [UIPasteboard generalPasteboard];
+            [pasteboard detectPatternsForPatterns:[NSSet setWithObjects:
+                                                       UIPasteboardDetectionPatternLink,
+                                                   UIPasteboardDetectionPatternFlightNumber,
+                                                   UIPasteboardDetectionPatternNumber,
+                                                   UIPasteboardDetectionPatternMoneyAmount,
+                                                   UIPasteboardDetectionPatternPhoneNumber,
+                                                   UIPasteboardDetectionPatternEmailAddress,
+                                                   UIPasteboardDetectionPatternCalendarEvent,
+                                                   UIPasteboardDetectionPatternPostalAddress,
+                                                   UIPasteboardDetectionPatternProbableWebURL,
+                                                   UIPasteboardDetectionPatternProbableWebSearch,
+                                                   UIPasteboardDetectionPatternShipmentTrackingNumber,
+                                                   nil]
+                                completionHandler:^(NSSet<UIPasteboardDetectionPattern> * _Nullable set, NSError * _Nullable error) {
+                NSMutableArray *patterns= [[NSMutableArray alloc]init];
+                for (NSString *type in set) {
+                    if ([type isEqualToString:UIPasteboardDetectionPatternLink]) {
+                        [patterns addObject: @"Link"];
+                    } else if ([type isEqualToString:UIPasteboardDetectionPatternFlightNumber]) {
+                        [patterns addObject: @"FlightNumber"];
+                    } else if ([type isEqualToString:UIPasteboardDetectionPatternNumber]) {
+                        [patterns addObject: @"Number"];
+                    } else if ([type isEqualToString:UIPasteboardDetectionPatternMoneyAmount]) {
+                        [patterns addObject: @"MoneyAmount"];
+                    } else if ([type isEqualToString:UIPasteboardDetectionPatternPhoneNumber]) {
+                        [patterns addObject: @"PhoneNumber"];
+                    } else if ([type isEqualToString:UIPasteboardDetectionPatternEmailAddress]) {
+                        [patterns addObject: @"EmailAddress"];
+                    } else if ([type isEqualToString:UIPasteboardDetectionPatternCalendarEvent]) {
+                        [patterns addObject: @"CalendarEvent"];
+                    } else if ([type isEqualToString:UIPasteboardDetectionPatternPostalAddress]) {
+                        [patterns addObject: @"PostalAddress"];
+                    } else if ([type isEqualToString:UIPasteboardDetectionPatternProbableWebURL]) {
+                        [patterns addObject: @"ProbableWebURL"];
+                    } else if ([type isEqualToString:UIPasteboardDetectionPatternProbableWebSearch]) {
+                        [patterns addObject: @"ProbableWebSearch"];
+                    } else if ([type isEqualToString:UIPasteboardDetectionPatternShipmentTrackingNumber]) {
+                        [patterns addObject: @"ShipmentTrackingNumber"];
+                    }
+                }
 
-	            if (hasLink && hasFlightNumber) {
-                    isTaoBao = YES;
-	            }
-
-	            CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsBool:isTaoBao];
-				[self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
-	        }];
-	    }else{
-	        CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsBool:false];
-			[self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
-	    }
-	}];
+                CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsArray:patterns];
+                [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+            }];
+        }else{
+            CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsBool:false];
+            [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+        }
+    }];
 }
 
 @end

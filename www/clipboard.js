@@ -40,13 +40,13 @@ Clipboard.prototype.clear = function (onSuccess, onFail) {
 };
 
 /**
- * Clear the clipboard content
+ * Get the clipboard content patterns
  *
  * @param {Function} onSuccess The function to call in case of success
  * @param {Function} onFail    The function to call in case of error
  */
-Clipboard.prototype.detectTaobaoLink = function (onSuccess, onFail) {
-    cordova.exec(onSuccess, onFail, "Clipboard", "detectTaobaoLink", []);
+Clipboard.prototype.patterns = function (onSuccess, onFail) {
+    cordova.exec(onSuccess, onFail, "Clipboard", "patterns", []);
 };
 
 // Register the plugin
