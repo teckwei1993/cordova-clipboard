@@ -6,6 +6,7 @@ Clipboard management plugin for Cordova/PhoneGap that supports iOS, Android, and
 ## Usage
 
 ```
+npm install cordova-clipboard@git+https://github.com/teckwei1993/cordova-clipboard.git
 cordova plugin add cordova-clipboard
 ```
 
